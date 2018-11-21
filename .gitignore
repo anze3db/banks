@@ -1,0 +1,7 @@
+venv3/
+chromedriver
+geckodriver.log
+settings_local.py
+*.pyc
+.swp
+config.ini
