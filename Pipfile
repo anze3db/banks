@@ -4,7 +4,8 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-python-dateutil = "*"
+selenium = "*"
+xlrd = "*"
 
 [dev-packages]
 

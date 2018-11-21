@@ -1,6 +1,7 @@
 import argparse
-from commands.transfer import run as run_transfer
-from commands.export import run as run_export
+from runners.transfer import run as run_transfer
+from runners.export import run as run_export
+from converters import run as run_convert
 
 parser = argparse.ArgumentParser(description='Access your bank in a jiffy. 🚀')
 subparsers = parser.add_subparsers(help='Choose an action to perform.', title='Options')
@@ -14,11 +15,12 @@ export_parser.add_argument('--bankinter', dest='bank', action='store_const', con
 export_parser.set_defaults(func=run_export)
 
 convert_parser = subparsers.add_parser('convert', help='Convert exported transactions. 🔁')
-export_parser.set_defaults(func=run_export)
+convert_parser.add_argument('--bankinter', dest='bankinter', nargs='+', default=[])
+convert_parser.add_argument('--personal', dest='personal', nargs='+', default=[])
+convert_parser.add_argument('--visa', dest='visa', nargs='+', default=[])
+convert_parser.add_argument('--business', dest='business', nargs='+', default=[])
+convert_parser.set_defaults(func=run_convert)
 
 args = parser.parse_args()
 
-try:
-    args.func(args)
-except:
-    parser.print_help()
+args.func(args)

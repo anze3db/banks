@@ -5,3 +5,5 @@ settings_local.py
 *.pyc
 .swp
 config.ini
+.DS_Store
+out.csv

@@ -1,0 +1,5 @@
+Naziv ra�una;Ra�un;Valuta;Stanje
+TRR LV S.P.;SI56111111111111;EUR;111,11
+Ra�un klienta;Znesek;Valuta;Datum knji�enja;Datum valute;Koda banke;Ime banke;Naslov banke;Ra�un prejemnika/po�iljatelja;Naziv;Naslov 1;Naslov 2;Naslov 3;Referenca prejemnika;Referenca nalogodajalca;Podrobnosti transakcije 1;Podrobnosti transakcije 2;Podrobnosti transakcije 3;Podrobnosti transakcije 4;Podrobnosti transakcije 5;Podrobnosti transakcije 6;Statisti�na koda;ID naloga;Tip naloga;Referenca banke
+SI56111111111111111;-0,37;EUR;2018-10-03;2018-10-03;;;;;;;;;;;TRANSACTION1;1 x 0,37 EUR;;;;;;;;
+SI56111111111111111;-0,12;EUR;2018-10-03;2018-10-03;;;;;;;;;;;TRANSACTION2;1 x 0,12 EUR;;;;;;;;
