@@ -12,9 +12,9 @@ def run(args):
     for file in args.personal:
         results += personal_parser.parse(file)
     for file in args.visa:
-        results += visa.parse(file)
+        results += visa_parser.parse(file)
     for file in args.business:
-        results += business.parse(file)
+        results += business_parser.parse(file)
     
     str_output = "Date,Amount,Currency,Description,Category\n"
     sum = 0
