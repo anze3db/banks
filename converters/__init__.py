@@ -26,7 +26,8 @@ def run(args):
     for category in (
         "Taxes",
         "Bank",
-        "Food & Drinks",
+        "Groceries",
+        "Restaurants",
         "Travel",
         "Home & Utilities",
         "SP Expenses",

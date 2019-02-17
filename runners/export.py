@@ -28,8 +28,8 @@ def run(args):
     down_arrow.click()
 
     start = date.today().replace(day=1) - timedelta(days=1)
-    set_date_field(driver, 'inic', ['01', str(start.month), str(start.year)])
-    set_date_field(driver, 'fim', [str(start.day), str(start.month), str(start.year)])
+    set_date_field(driver, 'inic', ['01', "{:02d}".format(start.month), str(start.year)])
+    set_date_field(driver, 'fim', [str(start.day), "{:02d}".format(start.month), str(start.year)])
 
     find = driver.find_elements_by_xpath("//img[@src='/particularesEN/images/botoes/b_find.png']")[0]
     find.click()
