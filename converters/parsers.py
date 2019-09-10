@@ -77,7 +77,7 @@ class Parser:
             amount = Decimal(amount.replace('.', '').replace(',', '.'))
 
         return Transaction(
-            datetime.datetime.strptime(self.get_value(sheet, row_idx, self.config.DATE), self.config.DATE_FMT),
+            datetime.datetime.strptime(self.get_value(sheet, row_idx, self.config.DATE), self.config.DATE_FMT).strftime('%Y-%m-%d'),
             self.get_value(sheet, row_idx, self.config.DESCRIPTION),
             amount, 
             self.get_value(sheet, row_idx, self.config.CURRENCY)
