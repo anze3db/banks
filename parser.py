@@ -1,12 +1,19 @@
-from banks.parsers import personal_parser, visa_parser, bankinter_parser, business_parser
+from banks.parsers import (
+    personal_parser,
+    visa_parser,
+    bankinter_parser,
+    business_parser,
+)
 
-all_results = personal_parser.parse('export_19_11_2018 (1).xls') + \
-              visa_parser.parse('export_19_11_2018.xls') + \
-              bankinter_parser.parse('ConsultaMovimentos (4).xls') + \
-              business_parser.parse('export (1).csv')
+all_results = (
+    personal_parser.parse("export_19_11_2018 (1).xls")
+    + visa_parser.parse("export_19_11_2018.xls")
+    + bankinter_parser.parse("ConsultaMovimentos (4).xls")
+    + business_parser.parse("export (1).csv")
+)
 
 summ = 0
-str_output = ("Date,Amount,Currency,Description,Category\n")
+str_output = "Date,Amount,Currency,Description,Category\n"
 for a in sorted(all_results):
     str_output += a.csv()
     summ += a.amount
@@ -30,9 +37,9 @@ for category in (
     "Other",
     "Charity",
     "Sports",
-    "Transport"
+    "Transport",
 ):
     str_output += ",,,," + category + "\n"
 print("Total this month: %.02f" % summ)
-with open('out.csv', 'w') as f:
+with open("out.csv", "w") as f:
     f.write(str_output)
