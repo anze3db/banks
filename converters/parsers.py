@@ -14,7 +14,7 @@ class Transaction:
 
     def csv(self):
         amount = "%.02f" % self.amount
-        return f"{self.date},{amount},{self.currency},\"{self.description}\",\n"
+        return f'{self.date},{amount},{self.currency},"{self.description}",\n'
 
 
 class BusinessConfig:
@@ -24,7 +24,8 @@ class BusinessConfig:
     AMOUNT = 1
     CURRENCY = 2
     DATE = 3
-    DATE_FMT = '%Y-%m-%d'
+    DATE_FMT = "%Y-%m-%d"
+    DELIMITER = ";"
 
 
 class VisaConfig:
@@ -34,7 +35,8 @@ class VisaConfig:
     AMOUNT = 5
     CURRENCY = 6
     DATE = 0
-    DATE_FMT = '%d.%m.%Y'
+    DATE_FMT = "%d.%m.%Y"
+    DELIMITER = ";"
 
 
 class PersonalConfig:
@@ -44,7 +46,8 @@ class PersonalConfig:
     AMOUNT = 1
     CURRENCY = 2
     DATE = 4
-    DATE_FMT = '%d.%m.%Y'
+    DATE_FMT = "%d.%m.%Y"
+    DELIMITER = ";"
 
 
 class BankinterConfig:
@@ -54,7 +57,19 @@ class BankinterConfig:
     AMOUNT = 4
     CURRENCY = 5
     DATE = 0
-    DATE_FMT = '%d-%m-%Y'
+    DATE_FMT = "%d-%m-%Y"
+    DELIMITER = ";"
+
+
+class N26Config:
+    START_OFFSET = 1
+    END_OFFSET = 0
+    DESCRIPTION = 1
+    AMOUNT = 6
+    CURRENCY = None
+    DATE = 0
+    DATE_FMT = '"%Y-%m-%d'
+    DELIMITER = '","'
 
 
 class Parser:
@@ -64,23 +79,30 @@ class Parser:
     def parse(self, filename):
         sheet = self.open(filename)
         res = []
-        for row_idx in range(self.config.START_OFFSET, self.num_rows(sheet) - self.config.END_OFFSET):
+        for row_idx in range(
+            self.config.START_OFFSET, self.num_rows(sheet) - self.config.END_OFFSET
+        ):
             res.append(self.parse_row(sheet, row_idx))
         return res
 
     def parse_row(self, sheet, row_idx):
         amount = self.get_value(sheet, row_idx, self.config.AMOUNT)
-
         if isinstance(amount, float):
             amount = Decimal(amount)
+        elif self.config.DELIMITER == '","':
+            amount = Decimal(amount)
         else:
-            amount = Decimal(amount.replace('.', '').replace(',', '.'))
+            amount = Decimal(amount.replace(".", "").replace(",", "."))
 
         return Transaction(
-            datetime.datetime.strptime(self.get_value(sheet, row_idx, self.config.DATE), self.config.DATE_FMT).strftime('%Y-%m-%d'),
+            datetime.datetime.strptime(
+                self.get_value(sheet, row_idx, self.config.DATE), self.config.DATE_FMT
+            ).strftime("%Y-%m-%d"),
             self.get_value(sheet, row_idx, self.config.DESCRIPTION),
-            amount, 
+            amount,
             self.get_value(sheet, row_idx, self.config.CURRENCY)
+            if self.config.CURRENCY
+            else "EUR",
         )
 
 
@@ -105,4 +127,4 @@ class CSVParser(Parser):
         return len(sheet)
 
     def get_value(self, sheet, row_idx, col_idx):
-        return sheet[row_idx].split(';')[col_idx]
+        return sheet[row_idx].split(self.config.DELIMITER)[col_idx]

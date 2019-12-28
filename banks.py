@@ -37,6 +37,7 @@ convert_parser.add_argument("--bankinter", dest="bankinter", nargs="+", default=
 convert_parser.add_argument("--personal", dest="personal", nargs="+", default=[])
 convert_parser.add_argument("--visa", dest="visa", nargs="+", default=[])
 convert_parser.add_argument("--business", dest="business", nargs="+", default=[])
+convert_parser.add_argument("--n26", dest="n26", nargs="+", default=[])
 convert_parser.set_defaults(func=run_convert)
 
 args = parser.parse_args()
