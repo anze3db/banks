@@ -11,70 +11,130 @@ class Transaction:
     description: str
     amount: Decimal
     currency: str
+    src: str
+    category: str = ""
 
     def csv(self):
         amount = "%.02f" % self.amount
-        return f'{self.date},{amount},{self.currency},"{self.description}",\n'
+        return f'{self.date},{amount},{self.currency},"{self.description}",{self.src},{self.category}\n'
 
 
 class BusinessConfig:
     START_OFFSET = 3
     END_OFFSET = 0
-    DESCRIPTION = 15
+    DESCRIPTION = [15, 16, 17, 9]
     AMOUNT = 1
     CURRENCY = 2
     DATE = 3
     DATE_FMT = "%Y-%m-%d"
     DELIMITER = ";"
+    SRC_NAME = 'UniCredit Business'
+    CATEGORY = None
+    DESCR_INDEX = 15
+    DESCRIPTION_MAPPINGS = {
+        "STROŠEK VODENJA": "Bank",
+        "PROVIZIJA ELEKTR. STAND.": "Bank",
+        "STR.EVID.PRILIVA-EKSTERNI": "Bank",
+        "SI1922633588-45004": "Taxes",
+        "SI1922633588-44008": "Taxes",
+        "SI1922633588-43001": "Taxes",
+        "SI1922633588-42005": "Taxes",
+        
+        "SI1922633588-62006": "Taxes",
+        "SI1922633588-40002": "Taxes"
+
+
+    }
 
 
 class VisaConfig:
     START_OFFSET = 4
     END_OFFSET = 0
-    DESCRIPTION = 2
+    DESCRIPTION = [2]
     AMOUNT = 5
     CURRENCY = 6
     DATE = 0
     DATE_FMT = "%d.%m.%Y"
     DELIMITER = ";"
+    SRC_NAME = "UniCredit Visa"
+    CATEGORY = None
+    DESCR_INDEX = 2
+    DESCRIPTION_MAPPINGS = {}
 
 
 class PersonalConfig:
     START_OFFSET = 4
     END_OFFSET = 0
-    DESCRIPTION = 12
+    DESCRIPTION = [12]
     AMOUNT = 1
     CURRENCY = 2
     DATE = 4
     DATE_FMT = "%d.%m.%Y"
     DELIMITER = ";"
+    SRC_NAME = 'UniCredit Personal'
+    CATEGORY = None
+    DESCR_INDEX = 12
+    DESCRIPTION_MAPPINGS = {}
 
 
 class BankinterConfig:
     START_OFFSET = 8
     END_OFFSET = 2
-    DESCRIPTION = 2
+    DESCRIPTION = [2]
     AMOUNT = 4
     CURRENCY = 5
     DATE = 0
     DATE_FMT = "%d-%m-%Y"
     DELIMITER = ";"
+    SRC_NAME = 'Bankinter'
+    CATEGORY = None
+    DESCR_INDEX = 2
+    DESCRIPTION_MAPPINGS = {
+        # COMPRA 8344301.46 03-TRANSACCOES BXV -> Car
+        "EMPRESTIMO 90173353667-COB": "Apartment",
+        "Comissao de Processamento Prestacao 038": "Bank",
+        "Imposto do Selo sobre Com.Proc.Prest.038": "Bank",
+        "IMPOSTO DO SELO SOBRE JUROS E COMISSOES": "Bank",
+        "PAGAMENTO DE SEGUROS": "Apartment",
+        "Cobranca DD-20000136755 FIDELIDADE COMP": "Health & Personal Care",
+        "Cobranca DD-05511019025 NOS Comunicacoe": "Household & Utilities",
+        "Cobranca DD-00159121887 AGUAS DE CASCAI": "Household & Utilities",
+        "Cobranca DD-00000252231 GALP POWER": "Household & Utilities",
+    }
 
 
 class N26Config:
     START_OFFSET = 1
     END_OFFSET = 0
-    DESCRIPTION = 1
+    DESCRIPTION = [1, 2, 3, 4]
     AMOUNT = 6
     CURRENCY = None
     DATE = 0
     DATE_FMT = '"%Y-%m-%d'
     DELIMITER = '","'
+    SRC_NAME = 'n26'
+    CATEGORY = 5
+    DESCR_INDEX = 1
+    DESCRIPTION_MAPPINGS = {
+        "LINODE": "SP Expenses",
+        "MAILGUN TECHNOLOGIES,": "SP Expenses",
+        "NETFLIX.COM": "Household & Utilities",
+        "Charib": "Household & Utilities"
+    }
 
 
 class Parser:
     def __init__(self, config):
         self.config = config
+    
+    def open(self, filename: str):
+        raise NotImplementedError()
+
+    def get_value(self, sheet, row_idx, col_idx):
+        raise NotImplementedError()
+    
+    def num_rows(self, sheet):
+        raise NotImplementedError()
 
     def parse(self, filename):
         sheet = self.open(filename)
@@ -84,6 +144,17 @@ class Parser:
         ):
             res.append(self.parse_row(sheet, row_idx))
         return res
+    
+    def get_description(self, sheet, row_idx: int) -> str:
+        return '\n'.join([self.get_value(sheet, row_idx, col_idx) for col_idx in self.config.DESCRIPTION if self.get_value(sheet, row_idx, col_idx).strip()])
+    
+    def get_category(self, sheet, row_idx: int) -> str:
+        description = self.get_value(sheet, row_idx, self.config.DESCR_INDEX)
+        if frm_descr := self.config.DESCRIPTION_MAPPINGS.get(description):
+            return frm_descr
+        if self.config.CATEGORY:
+            return self.get_value(sheet, row_idx, self.config.CATEGORY)
+        return ""
 
     def parse_row(self, sheet, row_idx):
         amount = self.get_value(sheet, row_idx, self.config.AMOUNT)
@@ -98,11 +169,13 @@ class Parser:
             datetime.datetime.strptime(
                 self.get_value(sheet, row_idx, self.config.DATE), self.config.DATE_FMT
             ).strftime("%Y-%m-%d"),
-            self.get_value(sheet, row_idx, self.config.DESCRIPTION),
+            self.get_description(sheet, row_idx),
             amount,
             self.get_value(sheet, row_idx, self.config.CURRENCY)
             if self.config.CURRENCY
             else "EUR",
+            self.config.SRC_NAME,
+            self.get_category(sheet, row_idx)
         )
 
 
@@ -111,11 +184,11 @@ class XLSParser(Parser):
         workbook = xlrd.open_workbook(filename)
         return workbook.sheet_by_index(0)
 
-    def num_rows(self, worksheet):
-        return worksheet.nrows
+    def num_rows(self, sheet):
+        return sheet.nrows
 
-    def get_value(self, worksheet, row_idx, col_idx):
-        return worksheet.row_slice(rowx=row_idx)[col_idx].value
+    def get_value(self, sheet, row_idx, col_idx):
+        return sheet.row_slice(rowx=row_idx)[col_idx].value
 
 
 class CSVParser(Parser):

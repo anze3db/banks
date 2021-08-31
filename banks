@@ -1,2 +1,3 @@
 #!/bin/bash
+cd ~/coding/banks
 pipenv run python banks.py "$@"

@@ -1,7 +1,8 @@
 import traceback
 
-from selenium import webdriver
-from selenium.webdriver.common.keys import Keys
+from selenium_testing_library import Screen, locators
+from selenium import webdriver # type: ignore
+from selenium.webdriver.common.keys import Keys # type: ignore
 
 import configparser
 
@@ -20,16 +21,16 @@ def _get_driver():
 def login():
     # 1st screen, enter username
     driver = _get_driver()
+    screen = Screen(driver)
     driver.get("https://banco.bankinter.pt/particularesEN/indexHomeMC.jsp")
     print("log in")
-    username = driver.find_element_by_id("txtUserName")
+    username = screen.get_by(locators.Css("#txtUserName"))
     username.clear()
-    username.send_keys(get_config("username"))
-    username.send_keys(Keys.RETURN)
+    username.send_keys(get_config("username") + Keys.RETURN)
 
     try:
         print("entering keys")
-        for fiscal_element in driver.find_elements_by_class_name("box_unlock_mc"):
+        for fiscal_element in screen.get_all_by(locators.Css(".box_unlock_mc")):
             name = fiscal_element.get_attribute("name")
             if "idNif" in name or not fiscal_element.is_enabled():
                 continue

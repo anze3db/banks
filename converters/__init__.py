@@ -28,32 +28,34 @@ def run(args):
     for file in args.n26:
         results += n26_parser.parse(file)
 
-    str_output = "Date,Amount,Currency,Description,Category\n"
-    sum = 0
+    str_output = "Date,Amount,Currency,Description,Source,Category\n"
 
     for a in sorted(results):
         str_output += a.csv()
-        sum += a.amount
 
     for category in (
-        "Taxes",
-        "Bank",
-        "Groceries",
-        "Restaurants",
-        "Travel",
-        "Home & Utilities",
-        "SP Expenses",
         "Apartment",
-        "Car",
-        "Clothing & Footwear",
-        "Health & Personal Care",
-        "Surf",
-        "Gifts",
-        "Education",
-        "Loans",
+        "Bank",
+        "Bike",
+        "Transport & Car",
         "Charity",
-        str(sum),
+        "Clothing & Footwear",
+        "Dog",
+        "Education",
+        "Gadgets",
+        "Games",
+        "Gifts",
+        "Food & Groceries",
+        "Health & Personal Care",
+        "Household & Utilities",
+        "Investments",
+        "Loans",
+        "Bars & Restaurants",
+        "SP Expenses",
+        "Surf",
+        "Taxes",
+        "Travel & Holidays",
     ):
-        str_output += ",,,," + category + "\n"
+        str_output += ",,,,," + category + "\n"
 
     print(str_output)

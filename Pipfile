@@ -6,8 +6,13 @@ name = "pypi"
 [packages]
 selenium = "*"
 xlrd = "*"
+mypy = "*"
+selenium-testing-library = "*"
 
 [dev-packages]
 
 [requires]
 python_version = "3.8"
+
+[pipenv]
+allow_prereleases = true
