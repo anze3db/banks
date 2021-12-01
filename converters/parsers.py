@@ -107,13 +107,13 @@ class N26Config:
     START_OFFSET = 1
     END_OFFSET = 0
     DESCRIPTION = [1, 2, 3, 4]
-    AMOUNT = 6
+    AMOUNT = 5
     CURRENCY = None
     DATE = 0
     DATE_FMT = '"%Y-%m-%d'
     DELIMITER = '","'
     SRC_NAME = 'n26'
-    CATEGORY = 5
+    CATEGORY = None
     DESCR_INDEX = 1
     DESCRIPTION_MAPPINGS = {
         "LINODE": "SP Expenses",
