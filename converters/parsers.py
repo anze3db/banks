@@ -39,10 +39,10 @@ class BusinessConfig:
         "SI1922633588-44008": "Taxes",
         "SI1922633588-43001": "Taxes",
         "SI1922633588-42005": "Taxes",
-        
         "SI1922633588-62006": "Taxes",
-        "SI1922633588-40002": "Taxes"
-
+        "SI1922633588-40002": "Taxes",
+        "PROVIZIJA": "Banks",
+        "GO TEL": "SP Expenses",
 
     }
 
@@ -90,7 +90,7 @@ class BankinterConfig:
     CATEGORY = None
     DESCR_INDEX = 2
     DESCRIPTION_MAPPINGS = {
-        # COMPRA 8344301.46 03-TRANSACCOES BXV -> Car
+        "TRANSACCOES BXV": "Transport & Car",
         "EMPRESTIMO 90173353667-COB": "Apartment",
         "Comissao de Processamento Prestacao 038": "Bank",
         "Imposto do Selo sobre Com.Proc.Prest.038": "Bank",
@@ -100,6 +100,7 @@ class BankinterConfig:
         "Cobranca DD-05511019025 NOS Comunicacoe": "Household & Utilities",
         "Cobranca DD-00159121887 AGUAS DE CASCAI": "Household & Utilities",
         "Cobranca DD-00000252231 GALP POWER": "Household & Utilities",
+        "FARMACIA": "Health & Personal Care"
     }
 
 
@@ -116,10 +117,26 @@ class N26Config:
     CATEGORY = None
     DESCR_INDEX = 1
     DESCRIPTION_MAPPINGS = {
+        "Charib": "Apartment",
         "LINODE": "SP Expenses",
         "MAILGUN TECHNOLOGIES,": "SP Expenses",
         "NETFLIX.COM": "Household & Utilities",
-        "Charib": "Household & Utilities"
+        "Charib": "Household & Utilities",
+        "UBER   *EATS": "Bars & Restaurants",
+        "APPLE.COM": "SP Expenses",
+        "ARARATE": "Bars & Restaurants",
+        "NAME-CHEAP.COM": "SP Expenses",
+        "Booking.com": "Travel & Holidays",
+        "RESTAURANT": "Bars & Restaurants",
+        "PRACTICE PORTUGUESE": "Education",
+        "LIDL": "Food & Groceries",
+        "MOJ.A1.SI": "Household & Utilities",
+        "PEIXARIA ESTORIL MAR": "Bars & Restaurants",
+        "PINGO DOCE": "Food & Groceries",
+        "GROUND BURGUER": "Bars & Restaurants",
+        "OBRESTI": "Bank",
+        "STR.EVID.PRILIVA": "Bank",
+        "STROŠEK VODENJA": "Bank"
     }
 
 
@@ -150,8 +167,9 @@ class Parser:
     
     def get_category(self, sheet, row_idx: int) -> str:
         description = self.get_value(sheet, row_idx, self.config.DESCR_INDEX)
-        if frm_descr := self.config.DESCRIPTION_MAPPINGS.get(description):
-            return frm_descr
+        for definition, category in self.config.DESCRIPTION_MAPPINGS.items():
+            if definition in description:
+                return category
         if self.config.CATEGORY:
             return self.get_value(sheet, row_idx, self.config.CATEGORY)
         return ""
