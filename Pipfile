@@ -10,6 +10,7 @@ mypy = "*"
 selenium-testing-library = "*"
 
 [dev-packages]
+black = "*"
 
 [requires]
 python_version = "3.8"

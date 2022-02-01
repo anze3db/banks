@@ -1,8 +1,8 @@
 import traceback
 
 from selenium_testing_library import Screen, locators
-from selenium import webdriver # type: ignore
-from selenium.webdriver.common.keys import Keys # type: ignore
+from selenium import webdriver  # type: ignore
+from selenium.webdriver.common.keys import Keys  # type: ignore
 
 import configparser
 

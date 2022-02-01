@@ -28,7 +28,7 @@ class BusinessConfig:
     DATE = 3
     DATE_FMT = "%Y-%m-%d"
     DELIMITER = ";"
-    SRC_NAME = 'UniCredit Business'
+    SRC_NAME = "UniCredit Business"
     CATEGORY = None
     DESCR_INDEX = 15
     DESCRIPTION_MAPPINGS = {
@@ -43,7 +43,6 @@ class BusinessConfig:
         "SI1922633588-40002": "Taxes",
         "PROVIZIJA": "Banks",
         "GO TEL": "SP Expenses",
-
     }
 
 
@@ -71,7 +70,7 @@ class PersonalConfig:
     DATE = 4
     DATE_FMT = "%d.%m.%Y"
     DELIMITER = ";"
-    SRC_NAME = 'UniCredit Personal'
+    SRC_NAME = "UniCredit Personal"
     CATEGORY = None
     DESCR_INDEX = 12
     DESCRIPTION_MAPPINGS = {}
@@ -86,7 +85,7 @@ class BankinterConfig:
     DATE = 0
     DATE_FMT = "%d-%m-%Y"
     DELIMITER = ";"
-    SRC_NAME = 'Bankinter'
+    SRC_NAME = "Bankinter"
     CATEGORY = None
     DESCR_INDEX = 2
     DESCRIPTION_MAPPINGS = {
@@ -100,7 +99,7 @@ class BankinterConfig:
         "Cobranca DD-05511019025 NOS Comunicacoe": "Household & Utilities",
         "Cobranca DD-00159121887 AGUAS DE CASCAI": "Household & Utilities",
         "Cobranca DD-00000252231 GALP POWER": "Household & Utilities",
-        "FARMACIA": "Health & Personal Care"
+        "FARMACIA": "Health & Personal Care",
     }
 
 
@@ -113,7 +112,7 @@ class N26Config:
     DATE = 0
     DATE_FMT = '"%Y-%m-%d'
     DELIMITER = '","'
-    SRC_NAME = 'n26'
+    SRC_NAME = "n26"
     CATEGORY = None
     DESCR_INDEX = 1
     DESCRIPTION_MAPPINGS = {
@@ -136,20 +135,20 @@ class N26Config:
         "GROUND BURGUER": "Bars & Restaurants",
         "OBRESTI": "Bank",
         "STR.EVID.PRILIVA": "Bank",
-        "STROŠEK VODENJA": "Bank"
+        "STROŠEK VODENJA": "Bank",
     }
 
 
 class Parser:
     def __init__(self, config):
         self.config = config
-    
+
     def open(self, filename: str):
         raise NotImplementedError()
 
     def get_value(self, sheet, row_idx, col_idx):
         raise NotImplementedError()
-    
+
     def num_rows(self, sheet):
         raise NotImplementedError()
 
@@ -161,10 +160,16 @@ class Parser:
         ):
             res.append(self.parse_row(sheet, row_idx))
         return res
-    
+
     def get_description(self, sheet, row_idx: int) -> str:
-        return '\n'.join([self.get_value(sheet, row_idx, col_idx) for col_idx in self.config.DESCRIPTION if self.get_value(sheet, row_idx, col_idx).strip()])
-    
+        return "\n".join(
+            [
+                self.get_value(sheet, row_idx, col_idx)
+                for col_idx in self.config.DESCRIPTION
+                if self.get_value(sheet, row_idx, col_idx).strip()
+            ]
+        )
+
     def get_category(self, sheet, row_idx: int) -> str:
         description = self.get_value(sheet, row_idx, self.config.DESCR_INDEX)
         for definition, category in self.config.DESCRIPTION_MAPPINGS.items():
@@ -193,7 +198,7 @@ class Parser:
             if self.config.CURRENCY
             else "EUR",
             self.config.SRC_NAME,
-            self.get_category(sheet, row_idx)
+            self.get_category(sheet, row_idx),
         )
 
 
