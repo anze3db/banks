@@ -41,7 +41,7 @@ class BusinessConfig:
         "SI1922633588-42005": "Taxes",
         "SI1922633588-62006": "Taxes",
         "SI1922633588-40002": "Taxes",
-        "PROVIZIJA": "Banks",
+        "PROVIZIJA": "Bank",
         "GO TEL": "SP Expenses",
     }
 
@@ -130,12 +130,17 @@ class N26Config:
         "PRACTICE PORTUGUESE": "Education",
         "LIDL": "Food & Groceries",
         "MOJ.A1.SI": "Household & Utilities",
-        "PEIXARIA ESTORIL MAR": "Bars & Restaurants",
+        "PEIXARIA ESTORIL MAR": "Food & Groceries",
         "PINGO DOCE": "Food & Groceries",
         "GROUND BURGUER": "Bars & Restaurants",
         "OBRESTI": "Bank",
         "STR.EVID.PRILIVA": "Bank",
         "STROŠEK VODENJA": "Bank",
+        "CONTINENTE": "Food & Groceries",
+        "INTERMARCHE ERICEIRA": "Transport & Car",
+        "CELEIRO DA ALDEIA": "Food & Groceries",
+        "LUAR DA BARRA": "Bars & Restaurants",
+        "POSTO ESTORIL V 3": "Transport & Car"
     }
 
 
