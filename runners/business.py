@@ -58,4 +58,4 @@ def export():
     screen.find_by_display_value("Izvozi").click()
     screen.find_by_text("export.csv").click()
 
-    input("Done. Press Enter to close")
+    input("Finished 🎊")
