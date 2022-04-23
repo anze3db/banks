@@ -1,6 +1,6 @@
 import time
 from datetime import date, timedelta
-from ..common import login
+from .common import login
 
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
