@@ -30,6 +30,10 @@ export_parser.add_argument(
     "--business",
     action="store_true",
 )
+export_parser.add_argument(
+    "--n26",
+    action="store_true",
+)
 export_parser.set_defaults(func=run_export)
 
 export_parser = subparsers.add_parser("login", help="Login to online banking. 📋")
@@ -39,6 +43,10 @@ export_parser.add_argument(
 )
 export_parser.add_argument(
     "--business",
+    action="store_true",
+)
+export_parser.add_argument(
+    "--n26",
     action="store_true",
 )
 export_parser.set_defaults(func=run_login)
