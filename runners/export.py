@@ -1,12 +1,12 @@
-from .bankinter.export import run as bankinter_run
-from .business import run as business_run
+from .bankinter import export as bankinter_export
+from .business import export as business_export
 from .n26 import export as n26_export
 
 
 def run(args):
     if args.bankinter:
-        bankinter_run(args)
+        bankinter_export()
     if args.business:
-        business_run(args)
+        business_export()
     if args.n26:
         n26_export()

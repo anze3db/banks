@@ -36,7 +36,7 @@ def login():
     return driver, screen
 
 
-def run(args):
+def export():
     driver, screen = login()
     menu = screen.get_by_css(".menuContainer")
     Within(menu).get_by_text("Promet").click()
