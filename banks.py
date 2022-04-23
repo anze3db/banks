@@ -1,6 +1,7 @@
 import argparse
 from runners.transfer import run as run_transfer
 from runners.export import run as run_export
+from runners.login import run as run_login
 from converters import run as run_convert
 
 parser = argparse.ArgumentParser(
@@ -30,6 +31,17 @@ export_parser.add_argument(
     action="store_true",
 )
 export_parser.set_defaults(func=run_export)
+
+export_parser = subparsers.add_parser("login", help="Login to online banking. 📋")
+export_parser.add_argument(
+    "--bankinter",
+    action="store_true",
+)
+export_parser.add_argument(
+    "--business",
+    action="store_true",
+)
+export_parser.set_defaults(func=run_login)
 
 convert_parser = subparsers.add_parser(
     "convert", help="Convert exported transactions. 🔁"
