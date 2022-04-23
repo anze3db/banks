@@ -23,10 +23,11 @@ transfer_parser.set_defaults(func=run_transfer)
 export_parser = subparsers.add_parser("export", help="Export transactions. 📋")
 export_parser.add_argument(
     "--bankinter",
-    dest="bank",
-    action="store_const",
-    const="bankinter",
-    default="bankinter",
+    action="store_true",
+)
+export_parser.add_argument(
+    "--business",
+    action="store_true",
 )
 export_parser.set_defaults(func=run_export)
 
