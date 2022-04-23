@@ -23,7 +23,7 @@ def login():
     driver = _get_driver()
     screen = Screen(driver)
     driver.get("https://banco.bankinter.pt/particularesEN/indexHomeMC.jsp")
-    print("log in")
+    screen.get_by_css("#onetrust-accept-btn-handler").click()
     username = screen.get_by(locators.Css("#txtUserName"))
     username.clear()
     username.send_keys(get_config("username") + Keys.RETURN)
