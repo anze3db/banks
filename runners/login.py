@@ -1,4 +1,4 @@
-from .bankinter.common import login as bankinter_login
+from .bankinter import login as bankinter_login
 from .business import login as business_login
 from .n26 import login as n26_login
 

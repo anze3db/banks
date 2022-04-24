@@ -3,7 +3,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
-from .bankinter.common import login, get_config
+from .bankinter import login, get_config
 
 
 def run(args):
