@@ -18,16 +18,17 @@ I hate bank software. It's horrible, slow and annoying to deal with. This projec
 
 ```
 $ ./banks
-usage: banks.py [-h] {transfer,export,convert} ...
+usage: banks [-h] {login,transfer,export,convert} ...
 
-Access your banks in a jiffy. 🚀
+Access your bank in a jiffy. 🚀
 
-optional arguments:
+options:
   -h, --help            show this help message and exit
 
 Options:
-  {transfer,export,convert}
+  {login,transfer,export,convert}
                         Choose an action to perform.
+    login               Login to online banking. 🔒
     transfer            Create a new domestic transfer. 💸
     export              Export transactions. 📋
     convert             Convert exported transactions. 🔁
