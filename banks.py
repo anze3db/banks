@@ -9,6 +9,21 @@ parser = argparse.ArgumentParser(
 )
 subparsers = parser.add_subparsers(help="Choose an action to perform.", title="Options")
 
+export_parser = subparsers.add_parser("login", help="Login to online banking. 🔒")
+export_parser.add_argument(
+    "--bankinter",
+    action="store_true",
+)
+export_parser.add_argument(
+    "--business",
+    action="store_true",
+)
+export_parser.add_argument(
+    "--n26",
+    action="store_true",
+)
+export_parser.set_defaults(func=run_login)
+
 transfer_parser = subparsers.add_parser(
     "transfer", help="Create a new domestic transfer. 💸"
 )
@@ -35,21 +50,6 @@ export_parser.add_argument(
     action="store_true",
 )
 export_parser.set_defaults(func=run_export)
-
-export_parser = subparsers.add_parser("login", help="Login to online banking. 📋")
-export_parser.add_argument(
-    "--bankinter",
-    action="store_true",
-)
-export_parser.add_argument(
-    "--business",
-    action="store_true",
-)
-export_parser.add_argument(
-    "--n26",
-    action="store_true",
-)
-export_parser.set_defaults(func=run_login)
 
 convert_parser = subparsers.add_parser(
     "convert", help="Convert exported transactions. 🔁"
