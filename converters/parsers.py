@@ -99,6 +99,7 @@ class BankinterConfig:
         "Cobranca DD-05511019025 NOS Comunicacoe": "Household & Utilities",
         "Cobranca DD-00159121887 AGUAS DE CASCAI": "Household & Utilities",
         "Cobranca DD-00000252231 GALP POWER": "Household & Utilities",
+        "Cobranca DD-00000252231 PETROGAL": "Household & Utilities",
         "FARMACIA": "Health & Personal Care",
     }
 
@@ -140,7 +141,7 @@ class N26Config:
         "INTERMARCHE ERICEIRA": "Transport & Car",
         "CELEIRO DA ALDEIA": "Food & Groceries",
         "LUAR DA BARRA": "Bars & Restaurants",
-        "POSTO ESTORIL V 3": "Transport & Car"
+        "POSTO ESTORIL V 3": "Transport & Car",
     }
 
 
