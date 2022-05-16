@@ -1,17 +1,14 @@
-import time
+import configparser
+import traceback
 from datetime import date, timedelta
 
 from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
-
-import traceback
-
-from selenium_testing_library import Screen, locators
-from selenium import webdriver  # type: ignore
 from selenium.webdriver.common.keys import Keys  # type: ignore
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium_testing_library import Screen, locators
 
-import configparser
+from .common import get_chromedriver
 
 config = configparser.ConfigParser()
 config.read("config.ini")
@@ -21,13 +18,9 @@ def get_config(name):
     return config["bankinter"][name]
 
 
-def _get_driver():
-    return webdriver.Chrome("./chromedriver")
-
-
 def login():
     # 1st screen, enter username
-    driver = _get_driver()
+    driver = get_chromedriver()
     screen = Screen(driver)
     driver.get("https://banco.bankinter.pt/particularesEN/indexHomeMC.jsp")
     screen.get_by_css("#onetrust-accept-btn-handler").click()

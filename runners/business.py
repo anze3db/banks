@@ -1,12 +1,11 @@
+import configparser
 from datetime import date, timedelta
 
-from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.action_chains import ActionChains
-from selenium_testing_library import Screen, Within
-from selenium import webdriver  # type: ignore
 from selenium.webdriver.common.keys import Keys  # type: ignore
+from selenium_testing_library import Screen, Within
 
-import configparser
+from .common import get_chromedriver
 
 config = configparser.ConfigParser()
 config.read("config.ini")
@@ -18,7 +17,7 @@ def get_config(name):
 
 def login():
     password = input("Password: ")
-    driver = webdriver.Chrome("./chromedriver")
+    driver = get_chromedriver()
     screen = Screen(driver)
     driver.get("https://si.unicreditbanking.net/")
     username = screen.get_by_placeholder_text("Vnesi uporabniško ime")
