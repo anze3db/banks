@@ -1,8 +1,8 @@
-import xlrd
 import datetime
-
 from dataclasses import dataclass
 from decimal import Decimal
+
+import xlrd
 
 
 @dataclass(order=True)
