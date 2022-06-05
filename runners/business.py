@@ -16,16 +16,18 @@ def get_config(name):
 
 
 def login():
-    password = input("Password: ")
     driver = get_chromedriver()
     screen = Screen(driver)
+    driver.set_window_position(0, 0, windowHandle="current")
+    driver.set_window_size(640, 900)
     driver.get("https://si.unicreditbanking.net/")
     username = screen.get_by_placeholder_text("Vnesi uporabniško ime")
     username.send_keys(config["business"]["username"])
     screen.get_by_display_value("NADALJUJ").click()
 
-    screen.find_by_placeholder_text("Vnesi geslo").send_keys(password)
-    screen.get_by_display_value("VSTOPI").click()
+    print("Enter password 🔒")
+    # screen.find_by_placeholder_text("Vnesi geslo").send_keys(password)
+    # screen.get_by_display_value("VSTOPI").click()
 
     screen.find_by_text(
         "Računi in finančni pregled",

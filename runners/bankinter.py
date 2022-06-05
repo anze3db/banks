@@ -22,6 +22,8 @@ def login():
     # 1st screen, enter username
     driver = get_chromedriver()
     screen = Screen(driver)
+    driver.set_window_position(1280, 0, windowHandle="current")
+    driver.set_window_size(640, 900)
     driver.get("https://banco.bankinter.pt/particularesEN/indexHomeMC.jsp")
     screen.get_by_css("#onetrust-accept-btn-handler").click()
     username = screen.get_by(locators.Css("#txtUserName"))
