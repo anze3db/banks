@@ -64,8 +64,8 @@ convert_parser.add_argument("--n26", dest="n26", nargs="+", default=[])
 convert_parser.set_defaults(func=run_convert)
 
 args = parser.parse_args()
-
-if hasattr(args, "func"):
-    args.func(args)
-else:
-    parser.print_help()
+if __name__ == "__main__":
+    if hasattr(args, "func"):
+        args.func(args)
+    else:
+        parser.print_help()
