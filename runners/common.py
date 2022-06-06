@@ -1,17 +1,23 @@
+from queue import Queue
+from threading import Thread
+
 from selenium import webdriver  # type: ignore
 
+input_queue: Queue = Queue()
+input_request_queue: Queue = Queue()
 
-class ProcessHanlder:
+
+class ThreadHandler:
     def __init__(self):
-        self.processes = []
+        self.threads = []
 
     def run_job(self, job):
-        job_process = Process(target=job)
+        job_process = Thread(target=job)
         job_process.start()
-        self.processes.append(job_process)
+        self.threads.append(job_process)
 
     def join(self):
-        for process in self.processes:
+        for process in self.threads:
             process.join()
 
 

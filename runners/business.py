@@ -5,7 +5,7 @@ from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.keys import Keys  # type: ignore
 from selenium_testing_library import Screen, Within
 
-from .common import get_chromedriver
+from .common import get_chromedriver, input_queue, input_request_queue
 
 config = configparser.ConfigParser()
 config.read("config.ini")
@@ -16,18 +16,19 @@ def get_config(name):
 
 
 def login():
+    input_request_queue.put("Enter password 🔒")
     driver = get_chromedriver()
     screen = Screen(driver)
     driver.set_window_position(0, 0, windowHandle="current")
-    driver.set_window_size(640, 900)
+    driver.set_window_size(597, 900)
     driver.get("https://si.unicreditbanking.net/")
     username = screen.get_by_placeholder_text("Vnesi uporabniško ime")
     username.send_keys(config["business"]["username"])
     screen.get_by_display_value("NADALJUJ").click()
 
-    print("Enter password 🔒")
-    # screen.find_by_placeholder_text("Vnesi geslo").send_keys(password)
-    # screen.get_by_display_value("VSTOPI").click()
+    password = input_queue.get()
+    screen.find_by_placeholder_text("Vnesi geslo").send_keys(password)
+    screen.get_by_display_value("VSTOPI").click()
 
     screen.find_by_text(
         "Računi in finančni pregled",
