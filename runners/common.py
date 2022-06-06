@@ -1,10 +1,6 @@
-from queue import Queue
 from threading import Thread
 
 from selenium import webdriver  # type: ignore
-
-input_queue: Queue = Queue()
-input_request_queue: Queue = Queue()
 
 
 class ThreadHandler:
@@ -12,13 +8,13 @@ class ThreadHandler:
         self.threads = []
 
     def run_job(self, job):
-        job_process = Thread(target=job)
-        job_process.start()
-        self.threads.append(job_process)
+        job_thread = Thread(target=job)
+        job_thread.start()
+        self.threads.append(job_thread)
 
     def join(self):
-        for process in self.threads:
-            process.join()
+        for thread in self.threads:
+            thread.join()
 
 
 def get_chromedriver():

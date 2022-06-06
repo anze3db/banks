@@ -17,7 +17,7 @@ def login():
     driver = get_chromedriver()
     screen = Screen(driver)
     driver.set_window_position(597, 0, windowHandle="current")
-    driver.set_window_size(597, 900)
+    driver.set_window_size(797, 900)
     driver.get("https://app.n26.com/login")
     screen.get_by_label_text("Email").send_keys(config["n26"]["email"])
     screen.get_by_label_text("Password").send_keys(config["n26"]["password"])

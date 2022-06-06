@@ -5,14 +5,10 @@ from .n26 import export as n26_export
 
 
 def run(args):
-    processes = ThreadHandler()
+    threads = ThreadHandler()
     if args.bankinter:
-        processes.run_job(bankinter_export)
+        threads.run_job(bankinter_export)
     if args.business:
-        processes.run_job(business_export)
+        threads.run_job(business_export)
     if args.n26:
-        processes.run_job(n26_export)
-
-    print("started processes")
-    processes.join()
-    print("done")
+        threads.run_job(n26_export)
