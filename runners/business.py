@@ -5,7 +5,7 @@ from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.keys import Keys  # type: ignore
 from selenium_testing_library import Screen, Within
 
-from .common import get_chromedriver, input_queue, input_request_queue
+from .common import get_chromedriver
 
 config = configparser.ConfigParser()
 config.read("config.ini")
