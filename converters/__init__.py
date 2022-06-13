@@ -1,11 +1,11 @@
 from .parsers import (
-    XLSParser,
-    CSVParser,
     BankinterConfig,
+    BusinessConfig,
+    CSVParser,
+    N26Config,
     PersonalConfig,
     VisaConfig,
-    BusinessConfig,
-    N26Config,
+    XLSParser,
 )
 
 bankinter_parser = XLSParser(BankinterConfig)
@@ -32,30 +32,5 @@ def run(args):
 
     for a in sorted(results):
         str_output += a.csv()
-
-    for category in (
-        "Apartment",
-        "Bank",
-        "Bike",
-        "Transport & Car",
-        "Charity",
-        "Clothing & Footwear",
-        "Dog",
-        "Education",
-        "Gadgets",
-        "Games",
-        "Gifts",
-        "Food & Groceries",
-        "Health & Personal Care",
-        "Household & Utilities",
-        "Investments",
-        "Loans",
-        "Bars & Restaurants",
-        "SP Expenses",
-        "Surf",
-        "Taxes",
-        "Travel & Holidays",
-    ):
-        str_output += ",,,,," + category + "\n"
 
     print(str_output)
