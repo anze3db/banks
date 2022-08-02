@@ -52,7 +52,7 @@ def login():
     except:
         traceback.print_exc()
     finally:
-        return driver
+        return driver, screen
 
 
 def set_date_field(driver, name, value):
@@ -63,7 +63,8 @@ def set_date_field(driver, name, value):
 
 
 def export():
-    driver = login()
+    driver, screen = login()
+    screen.find_by_text("Current Accounts", timeout=300)
     current_accounts = driver.find_element_by_id("lnkContasOrdem")
     current_accounts.click()
 
