@@ -28,11 +28,10 @@ def login():
 
 
 def export():
-    _, screen = login()
-    screen.get_by_title("Downloads").click()
+    driver, screen = login()
+    driver.get("https://app.n26.com/downloads")
 
     end_prev_month = date.today().replace(day=1) - timedelta(days=1)
-
     start_date = screen.find_by_css("#start-date-picker")
     start_date.clear()
     start_date.send_keys(f"{end_prev_month.year}-{end_prev_month.month:02}-01")
