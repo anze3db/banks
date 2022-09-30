@@ -53,9 +53,7 @@ def export():
         + f"{end_prev_month.day}.{end_prev_month.month}.{end_prev_month.year}"
     ).perform()
 
-    izvozi = screen.find_by_display_value("Izvozi")
     screen.get_by_display_value("Išči").click()
-    screen.wait_for_stale(izvozi)
     screen.find_by_display_value("Izvozi").click()
     screen.find_by_text("export.csv").click()
 
