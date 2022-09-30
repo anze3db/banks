@@ -222,7 +222,7 @@ class XLSParser(Parser):
 
 class CSVParser(Parser):
     def open(self, filename):
-        with open(filename, encoding="windows-1250") as file:
+        with open(filename) as file:
             return file.readlines()
 
     def num_rows(self, sheet):
@@ -230,3 +230,9 @@ class CSVParser(Parser):
 
     def get_value(self, sheet, row_idx, col_idx):
         return sheet[row_idx].split(self.config.DELIMITER)[col_idx]
+
+
+class BusinnessCSVParser(CSVParser):
+    def open(self, filename):
+        with open(filename, encoding="windows-1250") as file:
+            return file.readlines()

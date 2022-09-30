@@ -1,6 +1,7 @@
 from .parsers import (
     BankinterConfig,
     BusinessConfig,
+    BusinnessCSVParser,
     CSVParser,
     N26Config,
     PersonalConfig,
@@ -11,7 +12,7 @@ from .parsers import (
 bankinter_parser = XLSParser(BankinterConfig)
 personal_parser = XLSParser(PersonalConfig)
 visa_parser = XLSParser(VisaConfig)
-business_parser = CSVParser(BusinessConfig)
+business_parser = BusinnessCSVParser(BusinessConfig)
 n26_parser = CSVParser(N26Config)
 
 
