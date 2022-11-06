@@ -2,10 +2,7 @@ import configparser
 import traceback
 from datetime import date, timedelta
 
-from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys  # type: ignore
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.support.ui import WebDriverWait
 from selenium_testing_library import Screen, locators
 
 from .common import get_chromedriver
@@ -47,7 +44,7 @@ def login():
             # sometimes the second alert isn't there
             pass
         driver.switch_to.default_content
-        frame = driver.find_element_by_name("central")
+        frame = screen.find_by_name("central")
         driver.switch_to.frame(frame)
     except:
         traceback.print_exc()
@@ -55,49 +52,45 @@ def login():
         return driver, screen
 
 
-def set_date_field(driver, name, value):
+def set_date_field(screen, name, value):
     for idx, element in enumerate((f"seldia{name}", f"selmes{name}", f"selano{name}")):
-        field = driver.find_element_by_id(element)
+        field = screen.get_by_id(element)
         field.clear()
         field.send_keys(value[idx])
 
 
 def export():
     driver, screen = login()
-    screen.find_by_text("Current Accounts", timeout=300)
-    current_accounts = driver.find_element_by_id("lnkContasOrdem")
-    current_accounts.click()
-
-    current_accounts = driver.find_element_by_id("lnkDOMov")
-    current_accounts.click()
-
-    down_arrow = WebDriverWait(driver, 100000).until(
-        EC.presence_of_element_located((By.ID, "setaMov"))
+    screen.find_by_text(
+        "Client Position Summary - Deposits and Investments", timeout=300
     )
+    current_accounts = screen.find_by_id("lnkContasOrdem")
+    current_accounts.click()
+
+    current_accounts = screen.find_by_id("lnkDOMov")
+    current_accounts.click()
+
+    down_arrow = screen.find_by_id("setaMov", timeout=100000)
     down_arrow.click()
 
     start = date.today().replace(day=1) - timedelta(days=1)
     set_date_field(
-        driver, "inic", ["01", "{:02d}".format(start.month), str(start.year)]
+        screen, "inic", ["01", "{:02d}".format(start.month), str(start.year)]
     )
     set_date_field(
-        driver, "fim", [str(start.day), "{:02d}".format(start.month), str(start.year)]
+        screen, "fim", [str(start.day), "{:02d}".format(start.month), str(start.year)]
     )
 
-    find = driver.find_elements_by_xpath(
+    find = screen.find_all_by_xpath(
         "//img[@src='/particularesEN/images/botoes/b_find.png']"
     )[0]
     find.click()
 
-    iframe = WebDriverWait(driver, 100000).until(
-        EC.presence_of_element_located((By.ID, "listaMov"))
-    )
+    iframe = screen.find_by_id("listaMov", timeout=100000)
     driver.switch_to.frame(iframe)
 
-    export = WebDriverWait(driver, 100000).until(
-        EC.presence_of_element_located(
-            (By.XPATH, "//img[@src='/particularesEN/images/botoes/b_exportar.png']")
-        )
+    export_el = screen.find_by_xpath(
+        "//img[@src='/particularesEN/images/botoes/b_exportar.png']", timeout=10000
     )
-    export.click()
+    export_el.click()
     input("Done 🎉 ")
