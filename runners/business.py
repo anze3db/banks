@@ -55,6 +55,9 @@ def export():
 
     screen.get_by_display_value("Išči").click()
     screen.find_by_display_value("Izvozi").click()
+
+    ActionChains(driver).send_keys(Keys.CONTROL + Keys.HOME).perform()
+
     screen.find_by_text("export.csv").click()
 
     input("Finished 🎊")
