@@ -34,4 +34,42 @@ def run(args):
     for a in sorted(results):
         str_output += a.csv()
 
+    for cat in [
+        "Apartment",
+        "Bank",
+        "Bike",
+        "Books",
+        "Car",
+        "Cash",
+        "CatX",
+        "Charity",
+        "Clothing",
+        "Dog",
+        "Education",
+        "Electronics",
+        "Expenses",
+        "Food & Drinks",
+        "Fun",
+        "Games",
+        "Gifts",
+        "Groceries",
+        "Health",
+        "Household",
+        "Investments",
+        "Leisure",
+        "Other",
+        "Placa",
+        "Restaurants",
+        "Shopping",
+        "SP Expenses",
+        "Sports",
+        "Surf",
+        "Taxes",
+        "Transport",
+        "Travel",
+        "Unknown",
+    ]:
+
+        str_output += f",,,,,{cat}\n"
+
     print(str_output)

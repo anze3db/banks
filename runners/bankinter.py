@@ -29,7 +29,7 @@ def login():
 
     try:
         print("entering keys")
-        for fiscal_element in screen.get_all_by(locators.Css(".box_unlock_mc")):
+        for fiscal_element in screen.find_all_by(locators.Css(".box_unlock_mc")):
             name = fiscal_element.get_attribute("name")
             if "idNif" in name or not fiscal_element.is_enabled():
                 continue
@@ -37,12 +37,10 @@ def login():
             fiscal_element.send_keys(get_config(name[:-1])[idx])
         fiscal_element.send_keys(Keys.RETURN)
         # There are two alerts that we want to hide
-        driver.switch_to.alert.dismiss()
         try:
-            driver.switch_to.alert.dismiss()
+            screen.find_by_text("Client Position Summary")
         except:
-            # sometimes the second alert isn't there
-            pass
+            driver.switch_to.alert.dismiss()
         driver.switch_to.default_content
         frame = screen.find_by_name("central")
         driver.switch_to.frame(frame)
