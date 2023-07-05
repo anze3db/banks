@@ -1,6 +1,7 @@
 import argparse
 
 from converters import run as run_convert
+from runners.categorize import run as run_categorize
 from runners.export import run as run_export
 from runners.login import run as run_login
 from runners.transfer import run as run_transfer
@@ -62,6 +63,13 @@ convert_parser.add_argument("--visa", dest="visa", nargs="+", default=[])
 convert_parser.add_argument("--business", dest="business", nargs="+", default=[])
 convert_parser.add_argument("--n26", dest="n26", nargs="+", default=[])
 convert_parser.set_defaults(func=run_convert)
+
+categorize_parser = subparsers.add_parser(
+    "categorize", help="Add categories to the exported file 🗄"
+)
+categorize_parser.add_argument("--file", dest="file", type=str, required=True)
+categorize_parser.add_argument("--learn", dest="learn", type=str, required=True)
+categorize_parser.set_defaults(func=run_categorize)
 
 args = parser.parse_args()
 if __name__ == "__main__":

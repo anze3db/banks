@@ -1,6 +1,8 @@
 selenium
 selenium-testing-library
 xlrd
+sklearn
+pandas
 
 # Dev dependencies
 black
