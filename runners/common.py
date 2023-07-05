@@ -19,7 +19,7 @@ class ThreadHandler:
 
 def get_chromedriver():
     try:
-        return webdriver.Chrome("./chromedriver")
+        return webdriver.Chrome()
     except Exception as e:
         print("Possible issue with Chromedriver", e)
         raise
