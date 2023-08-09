@@ -69,7 +69,7 @@ def run(args):
         "Travel",
         "Unknown",
     ]:
-
         str_output += f",,,,,{cat}\n"
 
     print(str_output)
+    return str_output
