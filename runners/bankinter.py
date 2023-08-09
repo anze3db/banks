@@ -1,4 +1,5 @@
 import configparser
+import time
 import traceback
 from datetime import date, timedelta
 
@@ -22,7 +23,7 @@ def login():
     driver.set_window_position(1194, 0, windowHandle="current")
     driver.set_window_size(797, 900)
     driver.get("https://banco.bankinter.pt/particularesEN/indexHomeMC.jsp")
-    screen.get_by_css("#onetrust-accept-btn-handler").click()
+    screen.find_by_css("#onetrust-accept-btn-handler").click()
     username = screen.get_by(locators.Css("#txtUserName"))
     username.clear()
     username.send_keys(get_config("username") + Keys.RETURN)
@@ -91,4 +92,5 @@ def export():
         "//img[@src='/particularesEN/images/botoes/b_exportar.png']", timeout=10000
     )
     export_el.click()
-    input("Done 🎉 ")
+    time.sleep(2)  # Wait for download to finish
+    print("Bankinter: Done 🎉 ")

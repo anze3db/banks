@@ -1,3 +1,5 @@
+import datetime as dt
+import pathlib
 from threading import Thread
 
 from selenium import webdriver  # type: ignore
@@ -19,7 +21,18 @@ class ThreadHandler:
 
 def get_chromedriver():
     try:
-        return webdriver.Chrome()
+        options = webdriver.ChromeOptions()
+        # Get today's date as ISO string:
+        todays_date = dt.datetime.utcnow().strftime("%Y-%m")
+        dir_name = (
+            pathlib.Path.home() / "Documents" / "banks" / ("export-" + todays_date)
+        )
+        pathlib.Path(dir_name).mkdir(parents=True, exist_ok=True)
+        options.add_experimental_option(
+            "prefs",
+            {"download.default_directory": str(dir_name)},
+        )
+        return webdriver.Chrome(options=options)
     except Exception as e:
         print("Possible issue with Chromedriver", e)
         raise

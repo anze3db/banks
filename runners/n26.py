@@ -1,4 +1,5 @@
 import configparser
+import time
 from datetime import date, timedelta
 
 from selenium_testing_library import Screen
@@ -22,8 +23,8 @@ def login():
     screen.get_by_label_text("Email").send_keys(config["n26"]["email"])
     screen.get_by_label_text("Password").send_keys(config["n26"]["password"])
     screen.get_by_text("Log in").click()
-    print("Confirm on your 📱")
-    screen.find_by_text("Current balance", timeout=5 * 60, poll_frequency=1)
+    print("N26: Confirm on your 📱")
+    screen.find_by_text("My Account", timeout=5 * 60, poll_frequency=1)
     return driver, screen
 
 
@@ -43,4 +44,5 @@ def export():
     )
 
     screen.get_by_text("Download CSV").click()
-    input("Success 🎉")
+    time.sleep(5)  # Wait for download to finish
+    print("N26: Success 🎉")

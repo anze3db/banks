@@ -12,3 +12,4 @@ def run(args):
         threads.run_job(business_export)
     if args.n26:
         threads.run_job(n26_export)
+    threads.join()

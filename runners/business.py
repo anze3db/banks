@@ -1,4 +1,5 @@
 import configparser
+import time
 from datetime import date, timedelta
 
 from selenium.webdriver.common.action_chains import ActionChains
@@ -59,5 +60,5 @@ def export():
     ActionChains(driver).send_keys(Keys.CONTROL + Keys.HOME).perform()
 
     screen.find_by_text("export.csv").click()
-
-    input("Finished 🎊")
+    time.sleep(2)  # Wait for download to finish
+    print("Business: Finished 🎊")
