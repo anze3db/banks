@@ -3,6 +3,7 @@ import argparse
 from converters import run as run_convert
 from runners.export import run as run_export
 from runners.login import run as run_login
+from runners.monthly import run as run_monthly
 from runners.transfer import run as run_transfer
 
 parser = argparse.ArgumentParser(
@@ -62,6 +63,9 @@ convert_parser.add_argument("--visa", dest="visa", nargs="+", default=[])
 convert_parser.add_argument("--business", dest="business", nargs="+", default=[])
 convert_parser.add_argument("--n26", dest="n26", nargs="+", default=[])
 convert_parser.set_defaults(func=run_convert)
+
+monthly = subparsers.add_parser("monthly", help="Prepare monthly expenses. 📅")
+monthly.set_defaults(func=run_monthly)
 
 args = parser.parse_args()
 if __name__ == "__main__":
