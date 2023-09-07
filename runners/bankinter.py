@@ -1,8 +1,12 @@
 import configparser
 import time
-import traceback
 from datetime import date, timedelta
 
+from selenium.common.exceptions import (
+    NoAlertPresentException,
+    NoSuchElementException,
+    UnexpectedAlertPresentException,
+)
 from selenium.webdriver.common.keys import Keys  # type: ignore
 from selenium_testing_library import Screen, locators
 
@@ -28,27 +32,29 @@ def login():
     username.clear()
     username.send_keys(get_config("username") + Keys.RETURN)
 
-    try:
-        print("entering keys")
-        for fiscal_element in screen.find_all_by(locators.Css(".box_unlock_mc")):
-            name = fiscal_element.get_attribute("name")
-            if "idNif" in name or not fiscal_element.is_enabled():
-                continue
-            idx = int(name[-1:]) - 1
-            fiscal_element.send_keys(get_config(name[:-1])[idx])
-        fiscal_element.send_keys(Keys.RETURN)
-        # There are two alerts that we want to hide
+    print("entering keys")
+    for fiscal_element in screen.find_all_by(locators.Css(".box_unlock_mc")):
+        name = fiscal_element.get_attribute("name")
+        if "idNif" in name or not fiscal_element.is_enabled():
+            continue
+        idx = int(name[-1:]) - 1
+        fiscal_element.send_keys(get_config(name[:-1])[idx])
+    fiscal_element.send_keys(Keys.RETURN)
+
+    # There might be one or two alerts that we want to hide before continuing
+    while True:
         try:
-            screen.find_by_text("Client Position Summary")
-        except:
-            driver.switch_to.alert.dismiss()
-        driver.switch_to.default_content
-        frame = screen.find_by_name("central")
-        driver.switch_to.frame(frame)
-    except:
-        traceback.print_exc()
-    finally:
-        return driver, screen
+            screen.find_by_text("invalid", timeout=2)
+        except UnexpectedAlertPresentException:
+            try:
+                driver.switch_to.alert.dismiss()
+            except NoAlertPresentException:
+                pass
+        except NoSuchElementException:
+            break
+    frame = screen.find_by_name("central")
+    driver.switch_to.frame(frame)
+    return driver, screen
 
 
 def set_date_field(screen, name, value):
