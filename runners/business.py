@@ -53,8 +53,9 @@ def export():
         + Keys.TAB
         + f"{end_prev_month.day}.{end_prev_month.month}.{end_prev_month.year}"
     ).perform()
-
-    screen.get_by_display_value("Išči").click()
+    search = screen.get_by_display_value("Išči")
+    search.click()
+    screen.wait_for_stale(search)
     screen.find_by_display_value("Izvozi").click()
 
     ActionChains(driver).send_keys(Keys.CONTROL + Keys.HOME).perform()
