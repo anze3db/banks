@@ -8,10 +8,10 @@ from .export import run as run_export
 
 
 class ExportArgs:
-    def __init__(self):
-        self.bankinter = True
-        self.business = True
-        self.n26 = True
+    def __init__(self, bankinter=False, business=False, n26=False):
+        self.bankinter = bankinter
+        self.business = business
+        self.n26 = n26
 
 
 class ConvertArgs:
@@ -24,10 +24,21 @@ class ConvertArgs:
 
 
 def run(args):
-    run_export(ExportArgs())
     todays_date = dt.datetime.utcnow().strftime("%Y-%m")
     banks_dir = pathlib.Path.home() / "Documents" / "banks"
     export_dir = banks_dir / ("export-" + todays_date)
+    if n26_exists := (export_dir / "n26-csv-transactions.csv").exists():
+        print("N26: Already exported")
+    if bankinter_exists := (export_dir / "ConsultaMovimentos.xls").exists():
+        print("Bankinter: Already exported")
+    if business_exists := (export_dir / "export.csv").exists():
+        print("Business: Already exported")
+    export_args = ExportArgs(
+        bankinter=not bankinter_exists,
+        business=not business_exists,
+        n26=not n26_exists,
+    )
+    run_export(export_args)
     output = run_convert(
         ConvertArgs(
             bankinter=export_dir / "ConsultaMovimentos.xls",
