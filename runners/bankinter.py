@@ -75,7 +75,7 @@ def export():
     current_accounts = screen.find_by_id("lnkDOMov")
     current_accounts.click()
 
-    down_arrow = screen.find_by_id("setaMov", timeout=100000)
+    down_arrow = screen.find_by_id("setaMov", timeout=300)
     down_arrow.click()
 
     start = date.today().replace(day=1) - timedelta(days=1)
