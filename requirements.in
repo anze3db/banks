@@ -1,6 +1,7 @@
 selenium
 selenium-testing-library
 xlrd
+chromedriver-binary
 
 # Dev dependencies
 black
