@@ -8,7 +8,7 @@ attrs==23.2.0
     # via
     #   outcome
     #   trio
-black==23.12.1
+black==24.3.0
     # via -r requirements.in
 certifi==2023.11.17
     # via selenium
